@@ -6,13 +6,15 @@
   remote_user: kevin
   become: true
 
-  vars_prompt:
-   - name: del_user_name
-     prompt: Enter the users name to delete
-     private: false
-
   tasks:
-   - name: Delete a user
-     ansible.builtin.user: 
-      name: "{{ del_user_name }}"
-      remove: true
+  - name: List Linux users
+    shell: getent passwd
+    register: linux_users
+
+  - name: Filter users by shell
+    shell: "echo '{{ linux_users.stdout }}' | grep '/bin/bash' | cut -d: -f1"
+    register: filtered_users
+
+  - name: Print filtered users
+    debug:
+      var: filtered_users.stdout_lines
