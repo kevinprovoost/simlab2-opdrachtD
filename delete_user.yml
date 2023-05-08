@@ -18,3 +18,13 @@
   - name: Print filtered users
     debug:
       var: filtered_users.stdout_lines
+
+  - name: Prompt for user input
+    pause:
+      prompt: "Enter the username you want to delete:"
+    register: del_user_name
+
+  - name: Delete a user
+    ansible.builtin.user: 
+     name: del_user_name
+     remove: true
