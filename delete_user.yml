@@ -1,0 +1,18 @@
+---
+# This playbook will delete users on the Pi of Ben
+
+- name: Delete a user
+  hosts: benpi
+  remote_user: kevin
+  become: true
+
+  vars_prompt:
+   - name: del_user_name
+     prompt: Enter the users name to delete
+     private: false
+
+  tasks:
+   - name: Delete a user
+     ansible.builtin.user: 
+      name: "{{ del_user_name }}"
+      remove: true
