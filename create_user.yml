@@ -1,0 +1,23 @@
+---
+# This playbook will create users on the Pi of Ben
+
+- name: Create a user
+  hosts: benpi
+  remote_user: kevin
+  become: true
+
+  vars_prompt:
+   - name: new_user_name
+     prompt: Enter the users name
+     private: false
+   - name: new_user_pass
+     prompt: Enter the users password (hidden)
+
+  tasks:
+   - name: Create a user
+     ansible.builtin.user: 
+      name: "{{ new_user_name }}"
+      groups: sudo
+      shell: /bin/bash
+      password: "{{ new_user_pass | password_hash('sha512') }}"
+      createhome: yes
