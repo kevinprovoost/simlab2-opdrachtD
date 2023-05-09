@@ -24,7 +24,8 @@
       prompt: "Enter the username you want to delete:"
     register: del_user_name
 
-  - name: Delete a user
+  - name: Delete user
     ansible.builtin.user: 
-     name: del_user_name
+     name: "{{ del_user_name.user_input }}"
+     state: "absent"
      remove: true
