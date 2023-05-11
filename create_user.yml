@@ -15,7 +15,7 @@
 
   tasks:
    - name: Create a user
-     ansible.builtin.user: 
+     ansible.builtin.user:
       name: "{{ new_user_name }}"
       groups: sudo
       shell: /bin/bash
@@ -23,4 +23,5 @@
       createhome: yes
 
    - name: Creating samba user passwords
-     shell: "(echo {{ new_user_pass }}; echo {{ new_user_pass }}) | smbpasswd -s -a {{ new_user_name }}"
+     shell: "set -o pipefail | (echo {{ new_user_pass }}; echo {{ new_user_pass }}) | smbpasswd -s -a {{ new_user_name }}"
+     changed_when: false
