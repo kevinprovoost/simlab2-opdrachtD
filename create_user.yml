@@ -21,3 +21,6 @@
       shell: /bin/bash
       password: "{{ new_user_pass | password_hash('sha512') }}"
       createhome: yes
+
+   - name: Creating samba user passwords
+     shell: "(echo {{ new_user_pass }}; echo {{ new_user_pass }}) | smbpasswd -s -a {{ new_user_name }}"
