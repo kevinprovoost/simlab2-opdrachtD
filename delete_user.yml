@@ -11,8 +11,8 @@
     shell: getent passwd
     register: linux_users
 
-  - name: Filter users by shell
-    shell: "echo '{{ linux_users.stdout }}' | grep '/bin/bash' | cut -d: -f1"
+  - name: Filter users who don't have '/sbin/nologin'
+    shell: "echo '{{ linux_users.stdout }}' | grep -v '/sbin/nologin' | cut -d: -f1"
     register: filtered_users
 
   - name: Print filtered users
